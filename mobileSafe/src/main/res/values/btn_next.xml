@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="btn_next">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:background">@drawable/next_button_selector</item>
+        <item name="android:drawableRight">@drawable/next</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:text">下一步</item>
+        <item name="android:onClick">next</item>
+    </style>
+
+
+</resources>

@@ -1,0 +1,4 @@
+include ':app', ':library1'
+include ':mobileSafe'
+
+include ':library'

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_black_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:padding="6dp">
+
+    <TextView
+        android:id="@+id/tv_black_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="13000000000"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_black_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_black_number"
+        android:layout_marginTop="6dp"
+        android:text="长沙移动"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_black_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="短信拦截"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_black_location"
+        android:layout_centerHorizontal="true"
+        android:text="删除号码"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

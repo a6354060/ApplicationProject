@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wh"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/top_style"
+        android:text="功能列表" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:singleLine="true"
+        android:text="我是安全卫士，有了安全卫士就什么都不怕了，安全卫士就是NB，快来体验吧！！！"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+    <GridView
+        android:id="@+id/gd_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:numColumns="3"
+        android:verticalSpacing="15dp"></GridView>
+
+</LinearLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_liuliang"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp">
+
+        <TextView
+            style="@style/top_style"
+            android:text="流量统计" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/desk_left_selector"
+            android:clickable="true"
+            android:onClick="back">
+
+            <TextView
+                style="@style/top_letf_back_style"
+                android:text="功能列表" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

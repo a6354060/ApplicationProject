@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_app_lock"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp">
+
+        <TextView
+            style="@style/top_style"
+            android:text="程序锁" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/desk_left_selector"
+            android:clickable="true"
+            android:onClick="back">
+
+            <TextView
+                style="@style/top_letf_back_style"
+                android:text="高级工具" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="设置"
+            android:clickable="true"
+            android:onClick="lockSetting"
+            android:textColor="#ffff"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_app_unlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tab_left_pressed"
+            android:gravity="center"
+            android:text="未加锁"
+            android:textColor="#fff" />
+
+        <TextView
+            android:id="@+id/tv_app_lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tab_right_default"
+            android:gravity="center"
+            android:text="已加锁"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_app"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </FrameLayout>
+
+
+</LinearLayout>

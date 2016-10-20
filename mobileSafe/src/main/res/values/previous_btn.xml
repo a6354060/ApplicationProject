@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="btn_previous">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:background">@drawable/next_button_selector</item>
+        <item name="android:drawableRight">@drawable/previous</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:text">上一步</item>
+        <item name="android:onClick">previous</item>
+
+    </style>
+
+
+</resources>

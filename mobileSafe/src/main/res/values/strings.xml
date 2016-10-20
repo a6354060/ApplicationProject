@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">手机卫士</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="sample_device_admin">sample-device-admin</string>
+    <string name="sample_device_admin_description">超级设备管理器，能管理手机的设备，比如：立即锁屏，远程删除数据等等。。</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_app_manager">AppManagerActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

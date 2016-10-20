@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:itcast="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        >
+        <TextView
+            style="@style/top_style"
+            android:text="2.手机SIM卡绑定" />
+
+
+
+    </RelativeLayout>
+
+    <TextView
+        style="@style/contentStyle"
+        android:text="通过绑定SIM卡:" />
+
+    <TextView
+        style="@style/contentStyle"
+        android:text="下次重启手机发现SIM卡有变化就会发送报警短信给设置的安全号码" />
+
+    <com.jcxy.MobileSafe.view.SettingItemRelative
+        android:id="@+id/sir_bind_sim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="bindSIM"
+        itcast:desc_off="sim卡没有绑定"
+        itcast:desc_on="sim卡已经绑定"
+        itcast:title="点击绑定SIM卡" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/presence_invisible" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/presence_online" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/presence_invisible" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/presence_invisible" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/setup2" />
+
+        <Button style="@style/btn_next" />
+
+        <Button style="@style/btn_previous" />
+    </RelativeLayout>
+
+</LinearLayout>
