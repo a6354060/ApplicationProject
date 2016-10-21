@@ -153,7 +153,9 @@
 
         <activity android:name=".activity.VirusCheckActivity" />
         <activity android:name=".activity.AppLockActivity" />
-        <activity android:name=".activity.AppLockScreenActivity" />
+        <activity
+            android:name=".activity.AppLockScreenActivity"
+            android:launchMode="singleInstance" />
 
         <service
             android:name=".service.AppLockService"
