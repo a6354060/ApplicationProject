@@ -24,6 +24,8 @@ public class AppInfoUtils {
         this.appInfos = new ArrayList<AppInfo>();
     }
 
+
+
     public List<AppInfo> getAppInfos() {
         List<PackageInfo> installedPackages = pm.getInstalledPackages(0);
         AppInfo appInfo = null;
@@ -34,6 +36,10 @@ public class AppInfoUtils {
                 appInfo.setPackageName(packInfo.packageName);
 
                 ApplicationInfo applicationInfo = packInfo.applicationInfo;
+
+                // uid
+                 appInfo.setUid(applicationInfo.uid);
+
                 // 获得应用图标
                 appInfo.setIcon(applicationInfo.loadIcon(pm));
 

@@ -3,6 +3,8 @@ package com.jcxy.MobileSafe.utils;
 import android.app.ActivityManager;
 import android.content.Context;
 
+import com.wenming.library.processutil.ProcessManager;
+
 import java.util.List;
 
 /**
@@ -41,9 +43,8 @@ public class SystemUtils {
      * 运行的进程个数
      */
     public static int getRunningCount(Context context){
-         ActivityManager manager= (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
-        return manager.getRunningAppProcesses().size();
+        return ProcessManager.getRunningAppProcesses().size();
     }
 
 

@@ -40,6 +40,17 @@ public class AppInfo {
 
     private Boolean isSystemApp;
 
+    // 用户ID
+    private int Uid;
+
+    public int getUid() {
+        return Uid;
+    }
+
+    public void setUid(int uid) {
+        Uid = uid;
+    }
+
     public Drawable getIcon() {
         return icon;
     }

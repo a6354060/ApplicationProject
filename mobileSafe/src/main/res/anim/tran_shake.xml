@@ -4,5 +4,4 @@
     android:fromXDelta="-5"
     android:interpolator="@android:anim/cycle_interpolator"
     android:toXDelta="5">
-
 </translate>

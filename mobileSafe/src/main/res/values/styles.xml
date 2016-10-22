@@ -40,5 +40,25 @@
         <item name="android:textColor">#fff</item>
         <item name="android:layout_marginRight">3dp</item>
     </style>
+    <!-- 自定义水平进度条 -->
+    <style name="MyProcessBar" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/processbar</item>
+        <item name="android:minHeight">20dip</item>
+        <item name="android:maxHeight">20dip</item>
+        <item name="android:mirrorForRtl">true</item>
+    </style>
+
+    <style name="Atools">
+        <item name="android:textSize">20sp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawableLeft">@android:drawable/ic_menu_camera</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/atools_selector</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+    </style>
 
 </resources>

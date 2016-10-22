@@ -6,9 +6,12 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.text.format.Formatter;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.jcxy.MobileSafe.R;
 import com.jcxy.MobileSafe.activity.RockteAnimSmokeActivity;
@@ -53,8 +57,9 @@ public class DeskWindowService extends Service {
 	private void startWindow() {
 		wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 		params = new WindowManager.LayoutParams();
-		Wheight = wm.getDefaultDisplay().getHeight();
-		Wwidth = wm.getDefaultDisplay().getWidth();
+        Display display = wm.getDefaultDisplay();
+        Wheight = display.getHeight();
+		Wwidth = display.getWidth();
 		
 		view = View.inflate(this, R.layout.desk_progress_ball, null);
 		lightView = View.inflate(this, R.layout.desk_window_rockte, null);
@@ -97,11 +102,8 @@ public class DeskWindowService extends Service {
 						wm.updateViewLayout(view, params);
 						break;
 					case FINISH:
-						// 飞完了
-						
-						// 处理清理内存事件
-						new TaskInfos(DeskWindowService.this).killAllProcess();
-
+						// 飞完
+						new MyAsyncTask().execute();
 						// 恢复以前点击时的浮窗
 						int j = spf.getInt("rockteLastY", 0);
 						params.x=0;
@@ -176,6 +178,11 @@ public class DeskWindowService extends Service {
 						startActivity(intent);
 					}else{
 					   imageView.setBackgroundResource(R.drawable.desk);
+						if(params.x>Wwidth/2){
+							params.x=Wwidth;
+						}else {
+							params.x=0;
+						}
 						wm.updateViewLayout(view, params); 
 					}
 					// 结束光环
@@ -197,7 +204,6 @@ public class DeskWindowService extends Service {
 				// 设置火箭居中
 				params.x = Wwidth / 2 - view.getWidth() / 2;
 				wm.updateViewLayout(view, params);
-
 				new Thread() {
 					@Override
 					public void run() {
@@ -245,6 +251,23 @@ public class DeskWindowService extends Service {
 		if (wm != null && view != null) {
 			wm.removeView(view);
 			view = null; // 让垃圾收集器回收
+		}
+	}
+
+	private class MyAsyncTask extends AsyncTask<Void,Void,String>{
+		@Override
+		protected String doInBackground(Void... params) {
+			String s = new TaskInfos(getApplicationContext()).killAllProcess();
+			return s;
+		}
+
+		@Override
+		protected void onPostExecute(String s) {
+			super.onPostExecute(s);
+			String[] split = s.split(":");
+			int memeory=Integer.valueOf(split[0]);
+			int count=Integer.valueOf(split[1]);
+			Toast.makeText(getApplicationContext(), "共清理了" + count + "个进程，释放了" + Formatter.formatFileSize(getApplicationContext(), memeory) + "内存", Toast.LENGTH_SHORT).show();
 		}
 	}
 

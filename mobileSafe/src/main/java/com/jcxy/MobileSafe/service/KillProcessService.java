@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 
 import com.jcxy.MobileSafe.utils.SystemUtils;
+import com.wenming.library.processutil.ProcessManager;
 
 import java.util.List;
 import java.util.Timer;
@@ -32,7 +33,7 @@ public class KillProcessService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-            List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+            List<ActivityManager.RunningAppProcessInfo> appProcesses = ProcessManager.getRunningAppProcessInfo(KillProcessService.this);
             for (ActivityManager.RunningAppProcessInfo rap : appProcesses) {
                 activityManager.killBackgroundProcesses(rap.processName);
             }

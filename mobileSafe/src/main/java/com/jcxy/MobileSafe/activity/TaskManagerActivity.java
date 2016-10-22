@@ -445,10 +445,6 @@ public class TaskManagerActivity extends Activity implements View.OnClickListene
             if (position == 0) {
                 // 返回用户APP信息
                 TextView tv = new TextView(TaskManagerActivity.this);
-                //tv.setBackgroundColor(Color.GRAY);
-                // tv.setTextColor(Color.WHITE);
-//                tv.setText("用户程序：" + userApp.size() + "个");
-//                tv.setVisibility(View.GONE);
                 tv.setTextSize(1);
                 return tv;
 
@@ -486,7 +482,7 @@ public class TaskManagerActivity extends Activity implements View.OnClickListene
             }
 
             // 自己的进程不能被杀死
-            if ("手机卫士".equals(taskInfo.getProcessName())) {
+            if (getPackageName().equals(taskInfo.getPackName())) {
                 holder.cb_task_stat.setVisibility(View.GONE);
             }
 

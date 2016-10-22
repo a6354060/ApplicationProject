@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="5dp">
 
@@ -24,27 +24,36 @@
             android:text="app的名字"
             android:textColor="@color/black"
             android:textSize="18sp" />
-
+       <LinearLayout
+           android:layout_below="@id/tv_app_name"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/tv_app_category"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_flow_T"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_app_name"
-            android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:text="用户软件"
+            android:text="上传流量"
             android:textSize="16sp" />
-
         <TextView
-            android:id="@+id/tv_app_size"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_flow_R"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/tv_app_category"
-            android:layout_alignParentRight="true"
-            android:lines="1"
-            android:text="软件大小"
+            android:layout_marginTop="5dp"
+            android:text="下载流量"
             android:textSize="16sp" />
-
+        <TextView
+            android:id="@+id/tv_flow_all_size"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:layout_marginTop="5dp"
+            android:text="总共大小"
+            android:textSize="16sp" />
+       </LinearLayout>
     </RelativeLayout>
 
 

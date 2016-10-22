@@ -16,7 +16,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +27,9 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+
+import net.youmi.android.AdManager;
+import net.youmi.android.offers.OffersManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,6 +87,8 @@ public class SplashActivity extends Activity {
 
         }
     };
+    private PackageManager manager;
+    private PackageInfo info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +96,12 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
         tv = (TextView) findViewById(R.id.iv_version);
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.rel_root);
+         manager = getPackageManager();
+        try {
+            info = manager.getPackageInfo(getPackageName(), 0);
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
         tv.setText("版本名:" + getVersionName());
         SharedPreferences spf = getSharedPreferences("config", MODE_PRIVATE);
 
@@ -110,12 +120,17 @@ public class SplashActivity extends Activity {
         } else {
             handler.sendEmptyMessageDelayed(ENTER_HOME, 2500);
         }
-        /**
-         * 闪屏动画
-         */
-        AlphaAnimation animation = new AlphaAnimation(0.2f, 1);
-        animation.setDuration(2500);
-        rl.startAnimation(animation);
+//        /**
+//         * 闪屏动画
+//         */
+//        AlphaAnimation animation = new AlphaAnimation(0.2f, 1);
+//        animation.setDuration(2500);
+//        rl.startAnimation(animation);
+
+
+        AdManager.getInstance(this).init("2a0eec27e9661ca0", "6578b13306d5908b", false, true);
+
+        OffersManager.getInstance(this).onAppLaunch();
 
     }
 
@@ -203,16 +218,7 @@ public class SplashActivity extends Activity {
      * @return
      */
     private String getVersionName() {
-        PackageManager manager = getPackageManager();
-        String versionName = null;
-        try {
-            PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
-            versionName = info.versionName;
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return versionName;
+        return info.versionName;
     }
 
     /**
@@ -221,16 +227,7 @@ public class SplashActivity extends Activity {
      * @return
      */
     private int getVersionCode() {
-        tv = (TextView) findViewById(R.id.iv_version);
-        PackageManager manager = getPackageManager();
-        int versionCode = -1;
-        try {
-            PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
-            versionCode = info.versionCode;
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return versionCode;
+        return info.versionCode;
     }
 
     /**
@@ -397,5 +394,9 @@ public class SplashActivity extends Activity {
 
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        OffersManager.getInstance(this).onAppExit();
+    }
 }

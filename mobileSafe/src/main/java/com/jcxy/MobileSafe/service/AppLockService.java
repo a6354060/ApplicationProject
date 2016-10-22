@@ -68,6 +68,7 @@ public class AppLockService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        System.out.println("onCreate");
          config = getSharedPreferences("config", MODE_PRIVATE);
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
        // 注册内容提供者
@@ -132,8 +133,7 @@ public class AppLockService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-
+        System.out.println("onStartCommand");
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -171,7 +171,7 @@ public class AppLockService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        System.out.println("onDestroy");
             /**
              * 退出循环
              */

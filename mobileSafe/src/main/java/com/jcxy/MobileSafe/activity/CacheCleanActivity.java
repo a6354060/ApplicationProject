@@ -48,6 +48,8 @@ public class CacheCleanActivity extends Activity {
     private TextView tv_cache_info;
     private long cacheMemory;
     private MyAdapter adapter;
+    private int size;
+    private int temp;
 
     private Handler handler = new Handler() {
 
@@ -61,14 +63,62 @@ public class CacheCleanActivity extends Activity {
                 tv_cache_info.setText("有" + list.size() + "个软件有缓存，总缓存大小为:" + Formatter.formatFileSize(CacheCleanActivity.this, cacheMemory));
             }
             if (msg.what == UPDATE_ADAPTER) {
+
+                btn_clean_all.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        /**
+                         * 清理所有缓存
+                         */
+                        Method[] methods = PackageManager.class.getMethods();
+                        for (Method method : methods) {
+                            if ("freeStorageAndNotify".equals(method.getName())) {
+                                try {
+                                    method.invoke(packageManager, Integer.MAX_VALUE, new IPackageDataObserver() {
+                                        @Override
+                                        public void onRemoveCompleted(String packageName, boolean succeeded) throws RemoteException {
+
+                                        }
+
+                                        @Override
+                                        public IBinder asBinder() {
+                                            return null;
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        list.clear();
+                        cacheMemory=0;
+                        if (adapter == null) {
+                            ll_wait_load.setVisibility(View.GONE);
+                            adapter = new MyAdapter();
+                            adapter.notifyDataSetChanged();
+                            btn_clean_all.setFocusable(true);
+                        } else {
+                            ll_wait_load.setVisibility(View.GONE);
+                            adapter.notifyDataSetChanged();
+                            btn_clean_all.setFocusable(true);
+                        }
+                        UIUtils.showToast(CacheCleanActivity.this, "清理完成");
+                    }
+                });
+
+
                 if (adapter == null) {
                     ll_wait_load.setVisibility(View.GONE);
                     adapter = new MyAdapter();
                     lv_cache.setAdapter(adapter);
+                    btn_clean_all.setClickable(true);
                 } else {
                     ll_wait_load.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
+                    btn_clean_all.setClickable(true);
                 }
+
             }
 
 
@@ -80,47 +130,6 @@ public class CacheCleanActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cache_clean);
         initUI();
-        btn_clean_all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /**
-                 * 清理所有缓存
-                 */
-                Method[] methods = PackageManager.class.getMethods();
-                for (Method method : methods) {
-                    if ("freeStorageAndNotify".equals(method.getName())) {
-                        try {
-                            method.invoke(packageManager, Integer.MAX_VALUE, new IPackageDataObserver() {
-                                @Override
-                                public void onRemoveCompleted(String packageName, boolean succeeded) throws RemoteException {
-
-                                }
-
-                                @Override
-                                public IBinder asBinder() {
-                                    return null;
-                                }
-                            });
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                list.clear();
-                cacheMemory=0;
-                if (adapter == null) {
-                    ll_wait_load.setVisibility(View.GONE);
-                    adapter = new MyAdapter();
-                    adapter.notifyDataSetChanged();
-                } else {
-                    ll_wait_load.setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
-                }
-                UIUtils.showToast(CacheCleanActivity.this, "清理完成");
-            }
-        });
-
-
     }
 
     @Override
@@ -128,6 +137,7 @@ public class CacheCleanActivity extends Activity {
         super.onStart();
         list.clear();
         cacheMemory=0;
+        btn_clean_all.setClickable(false);
         initDate();
 
     }
@@ -148,6 +158,8 @@ public class CacheCleanActivity extends Activity {
         list = new ArrayList<CacheBean>();
         packageManager = getPackageManager();
         installedPackages = packageManager.getInstalledPackages(0);
+        size=installedPackages.size();
+        temp=size;
         try {
             //通过反射获取到当前的方法
             method = PackageManager.class.getDeclaredMethod("getPackageSizeInfo", String.class, IPackageStatsObserver.class);
@@ -207,7 +219,7 @@ public class CacheCleanActivity extends Activity {
         @Override
         public void onGetStatsCompleted(PackageStats pStats, boolean succeeded) throws RemoteException {
             long cacheSize = pStats.cacheSize;
-
+              size--;
             if (cacheSize > 1024 * 12) {
                 cacheBean = new CacheBean();
                 cacheBean.setAppCache(cacheSize);
@@ -216,6 +228,10 @@ public class CacheCleanActivity extends Activity {
                 cacheBean.setPackageName(packageName);
                 cacheMemory += cacheSize;
                 list.add(cacheBean);
+            }
+
+            if(size==0){
+                size=temp;
                 Message obtain = Message.obtain();
                 obtain.what = UPDATE_ADAPTER;
                 handler.sendMessage(obtain);
@@ -264,7 +280,7 @@ public class CacheCleanActivity extends Activity {
             }
             final CacheBean cacheBean = list.get(position);
             viewHolder.iv_cache_icon.setImageDrawable(cacheBean.getCacheIcon());
-            viewHolder.tv_cache_size.setText(Formatter.formatFileSize(CacheCleanActivity.this, cacheBean.getAppCache()));
+            viewHolder.tv_cache_size.setText("缓存大小:"+Formatter.formatFileSize(CacheCleanActivity.this, cacheBean.getAppCache()));
             viewHolder.tv_cache_name.setText(cacheBean.getAppName());
             /**
              * 清理缓存的监听

@@ -31,12 +31,11 @@ public class KillAllProcessReceiver extends BroadcastReceiver {
             TaskInfo sysInfo = null;
             while (iterator.hasNext()) {
                 sysInfo = iterator.next();
-                if (sysInfo.isChecked()) {
+
                     iterator.remove();
                     count++;
                     size += sysInfo.getProcessSize();
                     activityManager.killBackgroundProcesses(sysInfo.getPackName());
-                }
             }
 
         String formatFileSize = Formatter.formatFileSize(context, size);

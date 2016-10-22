@@ -3,8 +3,11 @@ package com.jcxy.MobileSafe.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -21,6 +24,7 @@ import com.jcxy.MobileSafe.service.DeskWindowService;
 import com.jcxy.MobileSafe.utils.ServiceStatuUtils;
 import com.jcxy.MobileSafe.view.SettingItemClickRelative;
 import com.jcxy.MobileSafe.view.SettingItemRelative;
+import com.wenming.library.DetectService;
 
 
 public class SettingActivity extends Activity {
@@ -326,7 +330,12 @@ public class SettingActivity extends Activity {
     /**
      * 程序锁服务功能
      */
+    public MyReceiver myReceiver;
     private void appLock() {
+        if (!DetectService.isAccessibilitySettingsOn(getApplicationContext()) == true) {
+           spf.edit().putBoolean("appLock",false).commit();
+        }
+
         // 判断以前的状态
         boolean b = spf.getBoolean("appLock", false);
         if (b) {
@@ -356,11 +365,7 @@ public class SettingActivity extends Activity {
 
                 } else {
                     // 非点击
-                    appLock.setChecked(true);
-                    spf.edit().putBoolean("appLock", true).commit();
-
                     // 开启程序锁
-
                     // 弹出对话框选择风格
                     final AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
                     AlertDialog dialog = builder.create();
@@ -368,8 +373,12 @@ public class SettingActivity extends Activity {
                     builder.setMessage("开启程序锁必须要到设置->辅助功能 开启无障碍功能，该功能不会影响手机使用。");
                     // 显示对话框
                     builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                             myReceiver = new MyReceiver();
+                            registerReceiver(myReceiver,new IntentFilter("isStartFunction"));
                             Intent intent = new Intent(SettingActivity.this, AppLockService.class);
                             startService(intent);
                             dialog.dismiss();
@@ -444,4 +453,37 @@ public class SettingActivity extends Activity {
 
     }
 
+    /**
+     * 防止在没设置无障碍功能是按返回键一直跳的问题
+     */
+    public class MyReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            System.out.println("appLockReceiver");
+            if (DetectService.isAccessibilitySettingsOn(getApplicationContext()) == true) {
+                 appLock.setChecked(true);
+                spf.edit().putBoolean("appLock",true).commit();
+            }else {
+                System.out.println("stopService");
+                Intent intent1 = new Intent(SettingActivity.this, AppLockService.class);
+                stopService(intent1);
+            }
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        sendBroadcast(new Intent("isStartFunction"));
+        super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(myReceiver!=null){
+        unregisterReceiver(myReceiver);
+        myReceiver=null;
+    }
+  }
 }
