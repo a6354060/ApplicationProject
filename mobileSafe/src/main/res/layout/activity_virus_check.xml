@@ -117,6 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="病毒软件赶快卸载"
+                android:visibility="gone"
                 android:textColor="#ff0000"
                 android:textSize="18sp" />
 

@@ -135,7 +135,7 @@ public class BackgroundUtil {
         }
         RecentUseComparator mRecentComp = new RecentUseComparator();
         long ts = System.currentTimeMillis();
-        UsageStatsManager mUsageStatsManager = (UsageStatsManager) context.getSystemService("usagestats");
+        UsageStatsManager mUsageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
         List<UsageStats> usageStats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, ts - 1000 * 10, ts);
         if (usageStats == null || usageStats.size() == 0) {
             if (HavaPermissionForTest(context) == false) {

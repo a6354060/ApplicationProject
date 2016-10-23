@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -55,11 +56,12 @@ public class SmsBackActivity extends Activity {
                     break;
                 case RESTORE_SMS:
                     tvPrompt.setText("还原成功！本次共还原" + config.getInt("backupCount", 0) + "条短信");
-
-                    if (!packageName.equals(defaultSmsPackage)) {
-                        Intent intent = new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
-                        intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, defaultSmsPackage);
-                        startActivity(intent);
+                    if(Build.VERSION.SDK_INT>=19) {
+                        if (!packageName.equals(defaultSmsPackage)) {
+                            Intent intent = new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+                            intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, defaultSmsPackage);
+                            startActivity(intent);
+                        }
                     }
                     break;
 
@@ -85,8 +87,11 @@ public class SmsBackActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sms_back);
         initUI();
-        defaultSmsPackage = Telephony.Sms.getDefaultSmsPackage(SmsBackActivity.this);
-        packageName = getPackageName();
+        if(Build.VERSION.SDK_INT>=19){
+            defaultSmsPackage = Telephony.Sms.getDefaultSmsPackage(SmsBackActivity.this);
+            packageName = getPackageName();
+        }
+
         initData();
     }
 
@@ -121,14 +126,20 @@ public class SmsBackActivity extends Activity {
         llSmsRestore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /**
+                 * 判断当前的用户的SDK版本的大小
+                 */
+                if(Build.VERSION.SDK_INT>=19){
+                      final String defaultSmsPackage1 = Telephony.Sms.getDefaultSmsPackage(SmsBackActivity.this);
+                      if (!packageName.equals(defaultSmsPackage1)) {
+                          smsPrompt();
+                      } else {
+                          RestoreSms();
+                      }
+                  }else {
+                      RestoreSms();
+                  }
 
-                final String defaultSmsPackage1 = Telephony.Sms.getDefaultSmsPackage(SmsBackActivity.this);
-
-                if (!packageName.equals(defaultSmsPackage1)) {
-                    smsPrompt();
-                } else {
-                    RestoreSms();
-                }
 
 
             }

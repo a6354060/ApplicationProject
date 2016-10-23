@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.jcxy.MobileSafe"
-        minSdkVersion 19
+        minSdkVersion 15
         targetSdkVersion 22
     }
 
