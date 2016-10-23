@@ -3,6 +3,8 @@ package com.jcxy.MobileSafe.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,7 +47,7 @@ public class BlackNumberActivity extends Activity {
     private TextView add_black_number;
     private TextView tv_non_black_number;
     private LinearLayout ll_wait;
-    private final int count = 10; // 每次查询15条数据
+    private final int count = 10; // 每次查询10条数据
     private int page;
     private EditText go_count;
     private TextView tv_page_count;
@@ -82,7 +84,14 @@ public class BlackNumberActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_black_number);
-
+        if(Build.VERSION.SDK_INT>=19) {
+            SharedPreferences config = getSharedPreferences("config", MODE_PRIVATE);
+            //config.edit().putBoolean("vision_prompt",false)
+            if (config.getBoolean("vision_prompt", true)) {
+                prompt();
+                config.edit().putBoolean("vision_prompt", false).commit();
+            }
+        }
         initView();
 
         initListViewData(count, page);
@@ -90,6 +99,18 @@ public class BlackNumberActivity extends Activity {
         OnItemClick();
 
         dealBlackEdite();
+    }
+
+    /**
+     * 提示
+     */
+    private void prompt() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(BlackNumberActivity.this);
+        builder.setTitle("温馨提示");
+        builder.setMessage("由于4.4以上版本的安全问题,该软件暂时不能拦截短息,以后会进行更新！");
+        builder.setPositiveButton("确定", null);
+        builder.show();
+
     }
 
     /**
