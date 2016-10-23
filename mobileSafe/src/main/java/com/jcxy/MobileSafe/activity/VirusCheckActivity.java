@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -189,19 +190,20 @@ public class VirusCheckActivity extends Activity {
             public void run() {
                 for (PackageInfo info : installedPackages) {
                     String sourceDir = info.applicationInfo.sourceDir;
-                    System.out.println(sourceDir);
-                    String s = virusDao.checkVirus(sourceDir);
-                    String programeName = info.applicationInfo.loadLabel(packageManager).toString();
-                    String packageName = info.packageName;
+                   if(!TextUtils.isEmpty(sourceDir)) {
+                       String s = virusDao.checkVirus(sourceDir);
+                       String programeName = info.applicationInfo.loadLabel(packageManager).toString();
+                       String packageName = info.packageName;
 
-                    Virus virus = new Virus();
-                    virus.setIsVirus(s);
-                    virus.setPname(programeName);
-                    virus.setPackName(packageName);
-                    Message message = Message.obtain();
-                    message.obj = virus;
-                    message.what = SCANNING;
-                    handler.sendMessage(message);
+                       Virus virus = new Virus();
+                       virus.setIsVirus(s);
+                       virus.setPname(programeName);
+                       virus.setPackName(packageName);
+                       Message message = Message.obtain();
+                       message.obj = virus;
+                       message.what = SCANNING;
+                       handler.sendMessage(message);
+                   }
                 }
 
                 Message m1 = Message.obtain();
